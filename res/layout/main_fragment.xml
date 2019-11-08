@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <!-- Have one variable per bound object or class - there may be more than one -->
+        <!-- Compiler creates one property in the 'binder' object accessible from MainActivity or MainFragment. -->
+        <!-- 'BR' will only have mainViewModel in its list of definitions. Since that's the only public property,
+             any change we make to a child property will be enough to fire notifyPropertyChanged(parent) -->
+        <variable
+            name="mainViewModel"
+            type="sss.mvvmdemo1.androidfragvmdemo1.ui.main.MainViewModel" />
+    </data>
+
+    <!-- xmlns:android="http://schemas.android.com/apk/res/android" only needs to be on the "outer" one -->
+    <!-- Credit: https://stackoverflow.com/questions/40103643/android-databinding-xml-duplicate-attribute -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextViewStyleWithMargins"
+            android:id="@+id/lblCallsign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Callsign" />
+        <TextView
+            style="@style/TextViewStyleWithMargins"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@{mainViewModel.localStation.callsign}" />
+
+        <TextView
+            style="@style/TextViewStyleWithMargins"
+            android:id="@+id/lblCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="City" />
+        <TextView
+            style="@style/TextViewStyleWithMargins"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{mainViewModel.localStation.city}" />
+
+        <!-- Handling numbers requires the static function reference to the method
+        https://stackoverflow.com/questions/37867988/android-data-binding-bindingconversion-failure-for-int-to-string
+        -->
+        <TextView
+            style="@style/TextViewStyleWithMargins"
+            android:id="@+id/lblChannel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Channel" />
+        <TextView
+            style="@style/TextViewStyleWithMargins"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{Integer.toString(mainViewModel.localStation.channelNum)}" />
+
+        <Button
+            android:id="@+id/btnChange"
+            android:onClick="@{() -> mainViewModel.changeStation()}"
+            android:text="Change"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--
+        -->
+
+        <EditText
+            style="@style/TextViewStyleWithMargins"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a callsign"
+            android:text="@={mainViewModel.inputCallsign}"/>
+        <EditText
+            style="@style/TextViewStyleWithMargins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a city"
+            android:text="@={mainViewModel.inputCity}"/>
+        <EditText
+            style="@style/TextViewStyleWithMargins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a channel number"
+            android:text="@={mainViewModel.inputChannelNumString}"/>
+
+    </LinearLayout>
+
+</layout>
+
+
